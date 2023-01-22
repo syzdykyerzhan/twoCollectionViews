@@ -11,9 +11,9 @@ import SnapKit
 class myCollectionViewCell: UICollectionViewCell {
     static let IDA = "IDENTIFIER"
     
-    private lazy var myImage : UIImageView = {
-        let myImage = UIImageView(image: UIImage(named: "apple"))
-        return myImage
+    private lazy var myView : UIView = {
+        let myView = UIView()
+        return myView
     }()
     
     override init(frame: CGRect) {
@@ -27,8 +27,8 @@ class myCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func setInformation(by text: String){
-        myImage.image = UIImage(named: text)
+    public func setInformation(by backColor: UIColor){
+        myView.backgroundColor = backColor
     }
 }
 
@@ -37,10 +37,10 @@ class myCollectionViewCell: UICollectionViewCell {
 
 extension myCollectionViewCell{
     func setupViews(){
-        contentView.addSubview(myImage)
+        contentView.addSubview(myView)
     }
     func setupConstraints(){
-        myImage.snp.makeConstraints { make in
+        myView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }

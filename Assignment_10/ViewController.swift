@@ -53,18 +53,17 @@ class ViewController: UIViewController {
     
     @objc func doSomeThing(){
         //var index = 0
-        let colors = [UIColor.red, UIColor.blue, UIColor.green, UIColor.systemMint]
-        view.backgroundColor = colors[myVar]
-        currentBackgroundColor = colors[myVar]
-        firstCollectionView.backgroundColor = currentBackgroundColor
-        secondCollectionView.backgroundColor = currentBackgroundColor
         myVar += 1
-        if myVar == colors.count{
+        if myVar == myHeaderData.count{
             myVar = 0
         }
+        view.backgroundColor = myHeaderData[myVar]
+        currentBackgroundColor = myHeaderData[myVar]
+        firstCollectionView.backgroundColor = currentBackgroundColor
+        secondCollectionView.backgroundColor = currentBackgroundColor
     }
     
-    private let myHeaderData = ["apple","banana","kiwi","milk","pineapple","marrow","fish","coca cola","bread"]
+    private let myHeaderData = [UIColor.systemRed, UIColor.systemBlue, UIColor.green, UIColor.systemYellow, UIColor.systemBrown, UIColor.black]
     private let mySecondData = ["1","2","3","4","5","6","7","8","9","10"]
 
     override func viewDidLoad() {
@@ -73,6 +72,7 @@ class ViewController: UIViewController {
         
         firstCollectionView.dataSource = self
         secondCollectionView.dataSource = self
+        firstCollectionView.delegate = self
         
         setupViews()
         setupConstraints()
@@ -98,6 +98,8 @@ extension ViewController: UICollectionViewDataSource{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: myCollectionViewCell.IDA, for: indexPath) as! myCollectionViewCell
             cell.setInformation(by: myHeaderData[indexPath.row])
             cell.layer.cornerRadius = 10
+            cell.layer.borderColor = CGColor(red: 1, green: 1, blue: 1, alpha: 1)
+            cell.layer.borderWidth =  3
             cell.layer.masksToBounds = true
             return cell
         }else{
@@ -107,6 +109,21 @@ extension ViewController: UICollectionViewDataSource{
             cell.layer.masksToBounds = true
             return cell
         }
+    }
+    
+
+}
+
+//MARK: setup CollectionViewDelegate
+
+extension ViewController: UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        firstCollectionView.backgroundColor = myHeaderData[indexPath.row]
+        secondCollectionView.backgroundColor = myHeaderData[indexPath.row]
+        
+        view.backgroundColor = myHeaderData[indexPath.row]
+        myVar = indexPath.row
     }
 }
 
